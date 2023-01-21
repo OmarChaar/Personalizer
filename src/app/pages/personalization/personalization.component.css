@@ -1,0 +1,98 @@
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden
+}
+
+.halfPage {
+  width: 50%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.imageSection {
+  background-color :aqua  ;
+}
+
+.questionSection {
+  background-color: #008080;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  min-width: 400px;
+}
+
+.sectionLabel {
+  color: var(--title);
+}
+
+.label {
+  width: 20%;
+  font-size: 1.25vw;
+  color: var(--label);
+}
+
+.checkboxSection {
+  flex: 1;
+  display: grid;
+}
+
+.radioGroup {
+  width: 100%;
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  height: 1.5rem;
+}
+
+.error {
+  font-weight: bold;
+  color: var(--error);
+}
+
+.price {
+  color: var(--price);
+}
+
+.bottomSection {
+  height: 1.5rem;
+
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.link {
+  color: var(--link);
+}
+
+.mat-radio-button {
+  width: calc(100% / 9);
+}
+
+.truthy .mat-radio-button {
+  width: calc(100% / 5) !important;
+}
+
+.truthy .label {
+  width: 20%;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.buttons button {
+  width: 25%;
+  max-width: 250px;
+}

@@ -1,1 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@media only screen and (max-width: 850px) {
+  html {
+    width: 100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #f9fafc;
+  }
+  body {
+    display: none;
+  }
+}
+
+:root {
+  --checkbox: #af9400;
+  --checkboxLabel: #ffffff;
+  --checkboxDisabled: #af940059;
+  --checkboxLabelDisabled: #af940059;
+  --title: #ffffff;
+  --label: #ffffff;
+  --error: #fb1818;
+  --price: #d1fe17;
+  --link: #ea9999;
+}
+
+.mat-radio-layout {
+  width: 100% !important;
+  align-items: center !important;
+}
+
+.mat-radio-inner-container {
+  width: 50% !important;
+  aspect-ratio: 1;
+  height: auto !important;
+  margin-left: 0 !important;
+  margin-right: 5px !important;
+}
+
+.mat-radio-layout .mat-radio-label {
+  font-size: 1.25rem;
+}
+
+.mat-radio-outer-circle {
+  border-color: var(--checkbox) !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mat-radio-button.mat-radio-disabled.mat-radio-checked .mat-radio-outer-circle, .mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
+  border-color: var(--checkboxDisabled) !important;
+}
+
+.mat-radio-container {
+  width: 1.75vw !important;
+  height: 1.75vw !important;
+}
+
+.mat-radio-label-content {
+  padding-left: 5px !important;
+  font-size: 1.25vw;
+  color: var(--checkboxLabel) !important;
+}
+
+.mat-radio-button.mat-radio-disabled .mat-radio-label-content {
+  color: var(--checkboxLabelDisabled) !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: gold !important;
+}
+
+.mat-radio-checked .mat-radio-inner-circle {
+  background-color: transparent !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.95) !important;
+  height: 0.95vw !important;
+  width: 0.95vw !important;
+}
+
+.mat-radio-inner-circle::after {
+  content: "";
+  width: 60%;
+  height: 100%;
+  border-right: 3px solid gold;
+  border-bottom: 3px solid gold;
+  transform: rotate(40deg) translate(-50%, -50%);
+  top: 45%;
+  position: absolute;
+  left: 10%;
+}
+
+.mat-radio-button:focus {
+  outline: none !important;
+}
+
+.mat-radio-button:hover {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+}
+

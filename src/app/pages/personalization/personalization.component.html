@@ -1,0 +1,41 @@
+<div class="main">
+  <div class="halfPage imageSection">
+
+  </div>
+
+  <div class="halfPage questionSection p-4">
+
+    <div *ngFor="let section of sections; let i = index;" class="mb-4">
+      <h2 class="sectionLabel">{{ section.label }}</h2>
+
+      <div *ngFor="let question of section.questions; let m = index" [id]="question.id" class="question mb-2" [ngClass]="question.type == 1 ? 'truthy' : ''">
+        <label class="label">{{ question.label }}</label>
+        <section class="checkboxSection ps-2">
+
+          <div class="topSection pb-1" [ngClass]="(question?.price != undefined || (question.error == true && verifying == true && question.enabled == true)) ? '' : 'hidden'">
+            <span class="error">{{(question.error == true && verifying == true && question.enabled == true) ? 'Error' : ''}}</span>
+            <span class="price">{{question.price != undefined ? (question.price | currency) : ''}}</span>
+          </div>
+
+          <mat-radio-group aria-label="Select an option" class="radioGroup">
+            <mat-radio-button [disabled]="!question.enabled" (change)="selectOption($event, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value">
+              {{ choice.label }}
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <div class="bottomSection pt-1" [ngClass]="question?.link == undefined ? 'hidden' : ''">
+            <a [href]="question.link" target="_blank"><span class="link">{{question.link}}</span></a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" (click)="save()">SAVE</button>
+      <button mat-raised-button color="primary" (click)="save()">CONTINUE</button>
+    </div>
+
+
+
+  </div>
+</div>
