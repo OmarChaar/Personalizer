@@ -25,6 +25,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --error: #fb1818;
   --price: #d1fe17;
   --link: #ea9999;
+  --header: #d01135;
+  --button: #af9400;
+  --buttonText: #ffffff;
 }
 
 a {

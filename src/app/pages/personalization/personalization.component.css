@@ -10,7 +10,7 @@
   width: 100%;
   min-height: 5rem;
   max-height: 5rem;
-  background-color: red;
+  background-color: var(--header);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -112,4 +112,9 @@
 .buttons button {
   width: 25%;
   max-width: 250px;
+}
+
+.primary {
+  background-color: var(--button) !important;
+  color: var(--buttonText) !important;
 }
