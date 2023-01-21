@@ -13,6 +13,7 @@ import { PersonalizationComponent } from './pages/personalization/personalizatio
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from './pipes/currency.pipe';
 import { PipesModule } from './pipes/pipes.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PipesModule } from './pipes/pipes.module';
     MatCheckboxModule,
     MatRadioModule,
     MatFormFieldModule,
-    PipesModule
+    PipesModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

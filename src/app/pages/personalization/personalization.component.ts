@@ -1,47 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { triggerAsyncId } from 'async_hooks';
+import { Question, Section } from 'src/app/classes/class';
+import { HttpClient } from '@angular/common/http';
 
 export enum QuestionType {
   numbered = 0,
   truthy = 1
-}
-
-export class Question {
-  constructor(
-    public id: any,
-    public label: string,
-    public options: any,
-    public type: any,
-    public required: boolean,
-    public enabled: boolean,
-    public parentOf?: any,
-    public choice?: any,
-    public price?: number,
-    public name?: string,
-    public link?: string,
-    public error?: boolean
-  ) {
-    this.id = id;
-    this.label = label;
-    this.options = options;
-    this.type = type;
-    this.required = required,
-    this.enabled = enabled,
-    this.parentOf = parentOf ? parentOf : undefined;
-    this.choice = choice ? choice : undefined;
-    this.price = price ? price : undefined;
-    this.name = name ? name : undefined;
-    this.link = link ? choice : undefined;
-    this.error = choice ? choice : true;
-  }
-}
-
-export class Section {
-  constructor(
-    public id: any,
-    public label: string,
-    public questions: any,
-  ){}
 }
 
 @Component({
@@ -75,13 +38,22 @@ export class PersonalizationComponent implements OnInit {
 
   public verifying = false;
 
-  constructor() {
+  constructor(
+    private http: HttpClient
+  ) {
 
+    this.http.get('http://localhost:3000/getData').subscribe((data: any) => {
+      console.log(data);
+
+    });
+
+    // delete once retrieved from DB
     for(let x=0; x<3; x++) {
       let tempQuestion: any[] = []
       for(let i=0; i<10; i++) {
         tempQuestion.push(new Question(
           `question-${x+1}-${i+1}`,
+          `question-${x+1}`,
           `Option ${i+1}`,
           (i%2 == 0 ? this.choicesMain : this.choicesSub),
           (i%2 == 0 ? QuestionType.numbered : QuestionType.truthy),
@@ -94,6 +66,7 @@ export class PersonalizationComponent implements OnInit {
       for(let i=10; i<12; i++) {
         tempQuestion.push(new Question(
           `question-${x+1}-${i+1}`,
+          `question-${x+1}`,
           `Option ${i+1}`,
           this.choicesMain,
           QuestionType.numbered,
@@ -115,11 +88,13 @@ export class PersonalizationComponent implements OnInit {
 
   selectOption(event: any, question: any) {
 
+    // get price fron DB
     question.option = event.value;
     question.price = '5000';
     question.link = 'https://www.google.com/',
     question.error = false;
     question.name = 'Name Da Opcão';
+
 
     if(question?.parentOf) {
       let child = this.findChild(question.parentOf);
@@ -141,6 +116,7 @@ export class PersonalizationComponent implements OnInit {
     }
     return undefined;
   }
+
 
   verify() {
     this.verifying = true;
