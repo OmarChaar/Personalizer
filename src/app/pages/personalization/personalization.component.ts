@@ -12,88 +12,57 @@ export enum QuestionType {
   templateUrl: './personalization.component.html',
   styleUrls: ['./personalization.component.css']
 })
+
 export class PersonalizationComponent implements OnInit {
 
-  public choicesMain = [
-    { label: '1', value: '1',  },
-    { label: '2', value: '2' },
-    { label: '3', value: '3' },
-    { label: '4', value: '4' },
-    { label: '5', value: '5' },
-    { label: '6', value: '6' },
-    { label: '7', value: '7' },
-    { label: '8', value: '8' },
-    { label: '9', value: '9' }
-  ];
-
-  public choicesSub = [
-    { label: 'SIM', value: 'S', },
-    { label: 'NÃO', value: 'N' },
-  ]
-
-  public questions: any[] = [];
-  public obj: any = {};
-
-   public sections: any[] = [];
+  public sections: any[] = [];
 
   public verifying = false;
+
+  public nodeJS_host = 'http://localhost:3000';
 
   constructor(
     private http: HttpClient
   ) {
 
-    this.http.get('http://localhost:3000/getData').subscribe((data: any) => {
+    this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
       console.log(data);
+      for(let i=0; i<data.length; i++) {
+        let tempQuestion: any[] = [];
+        const question = data[i].questions;
+        for(let ii=0; ii<question.length; ii++) {
+          console.log(question[ii])
+          tempQuestion.push(new Question(
+            question[ii].id,
+            question[ii].sectionID,
+            question[ii].label,
+            question[ii].options,
+            question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
+            question[ii].required,
+            question[ii].enabled
+          ))
+        }
 
+        this.sections.push(new Section(
+          data[i].id,
+          data[i].label,
+          tempQuestion
+        ))
+      }
     });
-
-    // delete once retrieved from DB
-    for(let x=0; x<3; x++) {
-      let tempQuestion: any[] = []
-      for(let i=0; i<10; i++) {
-        tempQuestion.push(new Question(
-          `question-${x+1}-${i+1}`,
-          `question-${x+1}`,
-          `Option ${i+1}`,
-          (i%2 == 0 ? this.choicesMain : this.choicesSub),
-          (i%2 == 0 ? QuestionType.numbered : QuestionType.truthy),
-          true,
-          (i%2 == 0 ? true : false),
-          (i%2 == 0 ? `question-${x+1}-${i+2}` : undefined),
-        ))
-      }
-
-      for(let i=10; i<12; i++) {
-        tempQuestion.push(new Question(
-          `question-${x+1}-${i+1}`,
-          `question-${x+1}`,
-          `Option ${i+1}`,
-          this.choicesMain,
-          QuestionType.numbered,
-          true,
-          true
-        ))
-      }
-
-      this.sections.push(new Section(
-        `section${x+1}`,
-        `Section ${x+1}`,
-        tempQuestion
-      ))
-    }
   }
 
   ngOnInit(): void {
   }
 
   selectOption(event: any, question: any) {
+    const option = question.options[event.value-1];
 
-    // get price fron DB
-    question.option = event.value;
-    question.price = '5000';
-    question.link = 'https://www.google.com/',
+    question.choice = event.value;
+    question.price = option.price;
+    question.link = option.link,
     question.error = false;
-    question.name = 'Name Da Opcão';
+    question.name = option.name;
 
 
     if(question?.parentOf) {
@@ -116,7 +85,6 @@ export class PersonalizationComponent implements OnInit {
     }
     return undefined;
   }
-
 
   verify() {
     this.verifying = true;
