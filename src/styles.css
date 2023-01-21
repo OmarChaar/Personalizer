@@ -27,6 +27,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --link: #ea9999;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 .mat-radio-layout {
   width: 100% !important;
   align-items: center !important;

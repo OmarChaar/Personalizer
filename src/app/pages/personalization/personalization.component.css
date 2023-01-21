@@ -2,7 +2,22 @@
   width: 100%;
   height: 100%;
   display: flex;
-  overflow: hidden
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.header {
+  width: 100%;
+  min-height: 5rem;
+  max-height: 5rem;
+  background-color: red;
+}
+
+.body {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  height: 100%;
 }
 
 .halfPage {

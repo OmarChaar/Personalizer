@@ -21,25 +21,28 @@ export class PersonalizationComponent implements OnInit {
 
   public nodeJS_host = 'http://localhost:3000';
 
+  public total = 0;
+
   constructor(
     private http: HttpClient
   ) {
 
     this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
-      console.log(data);
+
       for(let i=0; i<data.length; i++) {
         let tempQuestion: any[] = [];
         const question = data[i].questions;
+
         for(let ii=0; ii<question.length; ii++) {
-          console.log(question[ii])
           tempQuestion.push(new Question(
             question[ii].id,
             question[ii].sectionID,
-            question[ii].label,
+            question[ii].displayLabel,
             question[ii].options,
             question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
             question[ii].required,
-            question[ii].enabled
+            question[ii].enabled,
+            question[ii].parentOf
           ))
         }
 
@@ -49,6 +52,7 @@ export class PersonalizationComponent implements OnInit {
           tempQuestion
         ))
       }
+      console.log("sections", this.sections);
     });
   }
 
@@ -56,14 +60,22 @@ export class PersonalizationComponent implements OnInit {
   }
 
   selectOption(event: any, question: any) {
-    const option = question.options[event.value-1];
+    let option: any;
 
     question.choice = event.value;
-    question.price = option.price;
-    question.link = option.link,
-    question.error = false;
-    question.name = option.name;
 
+    if(question.type == QuestionType.numbered) {
+      option = question.options[event.value-1];
+
+      question.price = option.price;
+
+      question.link = option.link,
+      question.error = false;
+      question.name = option.name;
+
+      this.calculate();
+    }
+    question.error = false;
 
     if(question?.parentOf) {
       let child = this.findChild(question.parentOf);
@@ -84,6 +96,21 @@ export class PersonalizationComponent implements OnInit {
       }
     }
     return undefined;
+  }
+
+  calculate() {
+    let total = 0;
+    for(let i=0; i<this.sections.length; i++) {
+      let currentSectionQuestions = this.sections[i].questions;
+
+      for(let ii=0; ii<currentSectionQuestions.length; ii++) {
+        if(currentSectionQuestions[ii].price) {
+          total += Number(currentSectionQuestions[ii].price);
+        }
+      }
+    }
+
+    this.total = total;
   }
 
   verify() {
