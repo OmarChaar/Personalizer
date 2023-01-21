@@ -1,7 +1,9 @@
 <div class="main">
-  <div class="header">
+  <div class="header pe-4 ps-4">
+    <div></div>
+    <div></div>
     <div>
-      <label>Total: <span>{{ total | currency }}</span></label>
+      <h2 class="m-0">Total: <span>{{ total | currency }}</span></h2>
     </div>
   </div>
   <div class="body">
@@ -36,7 +38,7 @@
         </div>
       </div>
 
-      <div class="buttons">
+      <div class="buttons pt-4">
         <button mat-raised-button color="primary" (click)="save()">SAVE</button>
         <button mat-raised-button color="primary" (click)="save()">CONTINUE</button>
       </div>

@@ -42,7 +42,8 @@ export class PersonalizationComponent implements OnInit {
             question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
             question[ii].required,
             question[ii].enabled,
-            question[ii].parentOf
+            question[ii].parentOf,
+            question[ii].childOf,
           ))
         }
 
@@ -52,7 +53,8 @@ export class PersonalizationComponent implements OnInit {
           tempQuestion
         ))
       }
-      console.log("sections", this.sections);
+
+      console.log(this.sections);
     });
   }
 
@@ -81,6 +83,15 @@ export class PersonalizationComponent implements OnInit {
       let child = this.findChild(question.parentOf);
       if(child) {
         child.enabled = true;
+      }
+    }
+
+    if(question?.childOf) {
+      if(question.choice.toUpperCase() == 'S') {
+
+      }
+      else if(question.choice.toUpperCase() == 'N') {
+
       }
     }
   }

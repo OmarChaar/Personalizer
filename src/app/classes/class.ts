@@ -16,6 +16,7 @@ export class Question {
     public required: boolean,
     public enabled: boolean,
     public parentOf?: any,
+    public childOf?: any,
     public choice?: any,
     public price?: number,
     public name?: string,
@@ -30,6 +31,7 @@ export class Question {
     this.required = required,
     this.enabled = enabled,
     this.parentOf = parentOf ? parentOf : undefined;
+    this.childOf = childOf ? childOf : undefined;
     this.choice = choice ? choice : undefined;
     this.price = price ? price : undefined;
     this.name = name ? name : undefined;
