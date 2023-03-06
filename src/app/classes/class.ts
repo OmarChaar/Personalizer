@@ -39,3 +39,50 @@ export class Question {
     this.error = choice ? choice : true;
   }
 }
+
+export class InitQuestion {
+  constructor(
+    public section_id: any,
+    public section_label: any,
+    public label: string,
+    public options: any,
+    public type: any,
+    public required: boolean,
+    public enabled: boolean,
+    public parentOf?: any,
+    public childOf?: any,
+  ) {
+    this.section_id = section_id;
+    this.section_label = section_label;
+    this.label = label;
+    this.options = options;
+    this.type = type;
+    this.required = required,
+    this.enabled = enabled,
+    this.parentOf = parentOf ? parentOf : null;
+    this.childOf = childOf ? childOf : null;
+  }
+}
+
+
+export class InitOption {
+  constructor(
+    public id: any,
+    public question_id: any,
+    public question_label: any,
+    public label: string,
+    public value: any,
+    public name?: any,
+    public price?: number,
+    public link?: any,
+  ) {
+    this.id = id;
+    this.question_id = question_id;
+    this.question_label = question_label;
+    this.label = label;
+    this.value = value;
+    this.name = '',
+    this.price = 0,
+    this.link = ''
+  }
+}

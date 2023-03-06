@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Question, Section } from 'src/app/classes/class';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngxs/store';
 
 export enum QuestionType {
   numbered = 0,
@@ -15,6 +16,8 @@ export enum QuestionType {
 
 export class PersonalizationComponent implements OnInit {
 
+  account$ = this.store.select(state => state.account.account);
+
   public sections: any[] = [];
 
   public verifying = false;
@@ -24,38 +27,44 @@ export class PersonalizationComponent implements OnInit {
   public total = 0;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store
   ) {
+    this.account$.subscribe((account) => {
+      console.log("addoc", account);
+      this.sections = account;
+    })
 
-    this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
+    // this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
 
-      for(let i=0; i<data.length; i++) {
-        let tempQuestion: any[] = [];
-        const question = data[i].questions;
+    //   for(let i=0; i<data.length; i++) {
+    //     let tempQuestion: any[] = [];
+    //     const question = data[i].questions;
 
-        for(let ii=0; ii<question.length; ii++) {
-          tempQuestion.push(new Question(
-            question[ii].id,
-            question[ii].sectionID,
-            question[ii].displayLabel,
-            question[ii].options,
-            question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
-            question[ii].required,
-            question[ii].enabled,
-            question[ii].parentOf,
-            question[ii].childOf,
-          ))
-        }
+    //     for(let ii=0; ii<question.length; ii++) {
+    //       console.log("question[ii].options", question[ii].options);
+    //       tempQuestion.push(new Question(
+    //         question[ii].id,
+    //         question[ii].sectionID,
+    //         question[ii].displayLabel,
+    //         question[ii].options,
+    //         question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
+    //         question[ii].required,
+    //         question[ii].enabled,
+    //         question[ii].parentOf,
+    //         question[ii].childOf,
+    //       ))
+    //     }
 
-        this.sections.push(new Section(
-          data[i].id,
-          data[i].label,
-          tempQuestion
-        ))
-      }
+    //     this.sections.push(new Section(
+    //       data[i].id,
+    //       data[i].label,
+    //       tempQuestion
+    //     ))
+    //   }
 
-      console.log(this.sections);
-    });
+    //   console.log(this.sections);
+    // });
   }
 
   ngOnInit(): void {
