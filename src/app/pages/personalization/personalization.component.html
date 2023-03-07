@@ -1,6 +1,6 @@
 <div class="main">
   <div class="header pe-4 ps-4">
-    <div></div>
+    <i (click)="goBack()" class="bi bi-arrow-left"></i>
     <div></div>
     <div>
       <h2 class="m-0">Total: <span>{{ total | currency }}</span></h2>
@@ -17,7 +17,7 @@
         <h2 class="sectionLabel">{{ section.label }}</h2>
 
         <div *ngFor="let question of section.questions; let m = index" [id]="question.id" class="question mb-2" [ngClass]="question.type == 1 ? 'truthy' : ''">
-          <label class="label">{{ question.label }}</label>
+          <label class="label">{{ question.displayLabel }}<ng-container *ngIf="question?.required">*</ng-container></label>
           <section class="checkboxSection ps-2">
 
             <div class="topSection pb-1" [ngClass]="(question?.price != undefined || (question.error == true && verifying == true && question.enabled == true)) ? '' : 'hidden'">
@@ -26,7 +26,7 @@
             </div>
 
             <mat-radio-group aria-label="Select an option" class="radioGroup">
-              <mat-radio-button [disabled]="!question.enabled" (change)="selectOption($event, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value">
+              <mat-radio-button [ngClass]="question.type == 'truthy' ? 'truthyCheckbox' : ''" [disabled]="!question.enabled" (change)="selectOption($event, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value">
                 {{ choice.label }}
               </mat-radio-button>
             </mat-radio-group>

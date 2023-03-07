@@ -118,3 +118,11 @@
   background-color: var(--button) !important;
   color: var(--buttonText) !important;
 }
+
+.header i {
+  font-size: 3rem;
+}
+
+.truthyCheckbox {
+  width: calc(100% / 6);
+}

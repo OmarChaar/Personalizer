@@ -7,6 +7,7 @@ import { Store } from '@ngxs/store';
 import * as Papa from 'papaparse';
 import { InitOption, InitQuestion, Question, Section } from 'src/app/classes/class';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
+import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,12 @@ export class LoginComponent implements OnInit {
 
   public sections: any[] = [];
 
-  constructor( private router: Router, private firebaseService: FirebaseService, private store: Store) { }
+  constructor(
+    private router: Router,
+    private firebaseService: FirebaseService,
+    private store: Store,
+    private sessionStorageService: SessionStorageService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -34,6 +40,7 @@ export class LoginComponent implements OnInit {
       this.firebaseService.get('sections').subscribe((sections) => {
         console.log("sections", sections);
         this.store.dispatch(new SetAccount(sections));
+        this.sessionStorageService.setSessionStorage('sections', sections);
         this.router.navigate(['personalization']);
       })
 

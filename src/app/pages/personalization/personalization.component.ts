@@ -1,11 +1,15 @@
+import { ClearAccount } from './../../state-management/account';
 import { Component, OnInit } from '@angular/core';
 import { Question, Section } from 'src/app/classes/class';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
+import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 export enum QuestionType {
-  numbered = 0,
-  truthy = 1
+  multi = 'multi',
+  truthy = 'truthy'
 }
 
 @Component({
@@ -27,13 +31,21 @@ export class PersonalizationComponent implements OnInit {
   public total = 0;
 
   constructor(
-    private http: HttpClient,
-    private store: Store
+    private store: Store,
+    private sessionStorageService: SessionStorageService,
+    private location: Location
   ) {
-    this.account$.subscribe((account) => {
-      console.log("addoc", account);
-      this.sections = account;
-    })
+
+    if(this.sessionStorageService.getSessionStorage('sections')) {
+      this.sections = this.sessionStorageService.getSessionStorage('sections');
+    }
+    else {
+      this.account$.subscribe((account) => {
+        console.log("addoc", account);
+        this.sections = account;
+      })
+
+    }
 
     // this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
 
@@ -71,11 +83,12 @@ export class PersonalizationComponent implements OnInit {
   }
 
   selectOption(event: any, question: any) {
+    // console.log("selectOption", question);
     let option: any;
 
     question.choice = event.value;
 
-    if(question.type == QuestionType.numbered) {
+    if(question.type == QuestionType.multi) {
       option = question.options[event.value-1];
 
       question.price = option.price;
@@ -155,6 +168,12 @@ export class PersonalizationComponent implements OnInit {
     else {
 
     }
+  }
+
+  goBack() {
+    this.store.dispatch(new ClearAccount());
+    this.sessionStorageService.clearStorage();
+    this.location.back();
   }
 
 }
