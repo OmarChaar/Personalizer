@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist/personalizer-site",
+     "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "target": "personalize",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

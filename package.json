@@ -1,5 +1,5 @@
 {
-  "name": "personalizer-website",
+  "name": "personalizer-site",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

@@ -23,6 +23,7 @@ export class PersonalizationComponent implements OnInit {
   account$ = this.store.select(state => state.account.account);
 
   public sections: any[] = [];
+  public images: any[] = [];
 
   public verifying = false;
 
@@ -36,6 +37,10 @@ export class PersonalizationComponent implements OnInit {
     private location: Location
   ) {
 
+    if(this.sessionStorageService.getSessionStorage('client')) {
+      console.log("CCCLIENT", this.sessionStorageService.getSessionStorage('client'));
+    }
+
     if(this.sessionStorageService.getSessionStorage('sections')) {
       this.sections = this.sessionStorageService.getSessionStorage('sections');
     }
@@ -44,39 +49,20 @@ export class PersonalizationComponent implements OnInit {
         console.log("addoc", account);
         this.sections = account;
       })
+    }
+
+    if(this.sections) {
+      console.log("SECTIONS", this.sections);
+      for(let section of this.sections) {
+        if(section?.images?.length > 0) {
+          for(let image of section.images) {
+            this.images.push(image);
+          }
+        }
+      }
 
     }
 
-    // this.http.get(`${this.nodeJS_host}/getData`).subscribe((data: any) => {
-
-    //   for(let i=0; i<data.length; i++) {
-    //     let tempQuestion: any[] = [];
-    //     const question = data[i].questions;
-
-    //     for(let ii=0; ii<question.length; ii++) {
-    //       console.log("question[ii].options", question[ii].options);
-    //       tempQuestion.push(new Question(
-    //         question[ii].id,
-    //         question[ii].sectionID,
-    //         question[ii].displayLabel,
-    //         question[ii].options,
-    //         question[ii].type == 0 ? QuestionType.numbered : QuestionType.truthy,
-    //         question[ii].required,
-    //         question[ii].enabled,
-    //         question[ii].parentOf,
-    //         question[ii].childOf,
-    //       ))
-    //     }
-
-    //     this.sections.push(new Section(
-    //       data[i].id,
-    //       data[i].label,
-    //       tempQuestion
-    //     ))
-    //   }
-
-    //   console.log(this.sections);
-    // });
   }
 
   ngOnInit(): void {

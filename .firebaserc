@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "personalizer-portal"
+  },
+  "targets": {
+    "personalizer-portal": {
+      "hosting": {
+        "personlize": [
+          "personalize",
+          "personalize"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

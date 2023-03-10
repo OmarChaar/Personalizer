@@ -11,6 +11,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { NgxsModule } from '@ngxs/store';
 import { AccountState } from './state-management/account';
+import { ClientState } from './state-management/client';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCjgpOVFtCf1UiI6mPfnY075OD0zKreNLo",
@@ -18,8 +20,8 @@ const firebaseConfig = {
   projectId: "personalizer-portal",
   storageBucket: "personalizer-portal.appspot.com",
   messagingSenderId: "224907400372",
-  appId: "1:224907400372:web:f18928f63f8d9f560673e1",
-  measurementId: "G-CRGBSD5N3J"
+  appId: "1:224907400372:web:978ffebce36a3df80673e1",
+  measurementId: "G-ZPXML1GV21"
 };
 
 @NgModule({
@@ -34,7 +36,7 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    NgxsModule.forRoot([AccountState])
+    NgxsModule.forRoot([AccountState, ClientState])
   ],
   providers: [],
   bootstrap: [AppComponent]

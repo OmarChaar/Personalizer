@@ -10,5 +10,5 @@ import { animation } from './animations';
   ]
 })
 export class AppComponent {
-  title = 'Personalizer Website';
+  title = 'Personalizer Site';
 }

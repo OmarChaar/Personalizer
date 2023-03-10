@@ -1,3 +1,4 @@
+import { SetClient, ClearClient } from './../../state-management/client';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
@@ -6,6 +7,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { map, Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { SetAccount, ClearAccount } from 'src/app/state-management/account';
+import { SessionStorageService } from '../sessionStorage/session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class FirebaseService {
     private store: Store,
     private router: Router,
     private afs: AngularFirestore,
+    private sessionStorageService: SessionStorageService
 
   ) { }
 
@@ -34,8 +37,10 @@ export class FirebaseService {
     const docRef = doc(getFirestore(), "accounts", uid);
     getDoc(docRef).then((docSnap) => {
       if (docSnap.exists()) {
+
         this.collectionUID = docSnap.data()['id'];
-        this.store.dispatch(new SetAccount(docSnap.data()));
+        this.sessionStorageService.setSessionStorage('client', docSnap.data())
+        this.store.dispatch(new SetClient(docSnap.data()));
       } else {
         console.log("No such document!");
       }
@@ -51,8 +56,7 @@ export class FirebaseService {
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(doc => {
-          console.log(doc.id, ' => ', doc.data());
-          resolve(true); // add return statement here
+          resolve(true);
         });
       }, error => {
         reject(error);
@@ -63,6 +67,8 @@ export class FirebaseService {
   logout() {
     this.auth.signOut().then(() => {
       this.store.dispatch(new ClearAccount());
+      this.store.dispatch(new ClearClient());
+      this.sessionStorageService.clearStorage();
       this.router.navigate(['login']);
     })
   }

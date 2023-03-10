@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
   async login() {
     const loggedIn = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
     if(loggedIn) {
+      console.log("loggedIn", loggedIn);
       this.firebaseService.get('sections').subscribe((sections) => {
-        console.log("sections", sections);
         this.store.dispatch(new SetAccount(sections));
         this.sessionStorageService.setSessionStorage('sections', sections);
         this.router.navigate(['personalization']);

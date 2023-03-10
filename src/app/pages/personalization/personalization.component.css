@@ -126,3 +126,7 @@
 .truthyCheckbox {
   width: calc(100% / 6);
 }
+
+.imageSection img {
+  width: 100%;
+}
