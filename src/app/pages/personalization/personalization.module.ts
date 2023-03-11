@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SharedModule } from 'src/app/components/shared.module';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     MatRadioModule,
     MatFormFieldModule,
     MatSidenavModule,
+    SharedModule
   ]
 })
 export class PersonalizationModule { }

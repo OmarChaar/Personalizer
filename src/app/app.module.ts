@@ -8,6 +8,8 @@ import { NgxsModule } from '@ngxs/store';
 import { AccountState } from './state-management/account';
 import { ClientState } from './state-management/client';
 import { AccountGuard } from './classes/AccountGuard';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { AccountGuard } from './classes/AccountGuard';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    MatDialogModule,
     HttpClientModule,
     NgxsModule.forRoot([AccountState, ClientState])
   ],

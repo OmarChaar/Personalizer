@@ -146,3 +146,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-family: OpenSans;
   src: url(./assets/fonts/OpenSans.ttf) format("truetype");
 }
+
+.dialogConfirm {
+  background-color: var(--active);
+  color: white;
+}
+
+.dialogDanger {
+  background-color: var(--danger);
+  color: white;
+}

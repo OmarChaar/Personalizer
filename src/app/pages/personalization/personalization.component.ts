@@ -9,6 +9,8 @@ import { SessionStorageService } from 'src/app/services/sessionStorage/session-s
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { first } from 'rxjs';
+import { PromptComponent } from 'src/app/components/prompt/prompt.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum QuestionType {
   multi = 'multi',
@@ -38,7 +40,8 @@ export class PersonalizationComponent implements OnInit {
     private sessionStorageService: SessionStorageService,
     private location: Location,
     private firebaseService: FirebaseService,
-    private constantsService: ConstantsService
+    private constantsService: ConstantsService,
+    public dialog: MatDialog,
   ) {
 
     this.constantsService.startLoader();
@@ -165,6 +168,19 @@ export class PersonalizationComponent implements OnInit {
         client.choices = this.userChoices;
         await this.firebaseService.save(client);
         this.constantsService.stopLoader();
+
+        const dialogRef = this.dialog.open(PromptComponent, {
+          data: {
+            message: 'Are you sure you want to delete this image?',
+            title: 'Deleting Image'
+          }
+        });
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if(result != true) {
+            console.log("JESUS");
+          }
+        });
       })
     }
     else {
