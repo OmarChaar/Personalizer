@@ -45,24 +45,24 @@ export class PersonalizationComponent implements OnInit {
     this.account$.subscribe((account) => {
       this.sections = account;
       if(this.sections) {
+        this.client$.pipe(first()).toPromise().then(client => {
 
-        const userChoices = this.sessionStorageService.get('userChoices');
-        console.log("userChoices", userChoices);
-        for(let section of this.sections) {
-          for(let question of section.questions) {
+          for(let section of this.sections) {
+            for(let question of section.questions) {
 
-            if(userChoices[question.id] != undefined) {
-              this.selectOption(userChoices[question.id], question);
+              if(client?.choices[question.id] != undefined) {
+                this.selectOption(client.choices[question.id], question);
+              }
+            }
+
+            if(section?.images?.length > 0) {
+              for(let image of section.images) {
+                this.images.push(image);
+              }
             }
           }
 
-          if(section?.images?.length > 0) {
-            for(let image of section.images) {
-              this.images.push(image);
-            }
-          }
-        }
-
+        })
         this.constantsService.stopLoader();
       }
     })

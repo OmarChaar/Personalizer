@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
 import { ConstantsService } from 'src/app/services/constants/constants.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,9 @@ import { ConstantsService } from 'src/app/services/constants/constants.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  cpfForm = new FormControl('', [Validators.required]);
+  aptForm = new FormControl('', [Validators.required]);
 
   hide = true;
   hasErrors = false;
@@ -32,15 +36,23 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    this.constantsService.startLoader();
-    const client: any = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
-    if(client) {
-      this.constantsService.stopLoader();
-      this.router.navigate(['personalization']);
+    if (!this.cpf_cnpj || this.apartment.trim() === '') {
+      this.cpfForm.markAllAsTouched();
+      this.aptForm.markAllAsTouched();
     }
     else {
-      this.constantsService.stopLoader();
+      this.constantsService.startLoader();
+      const client: any = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
+      if(client) {
+        this.constantsService.stopLoader();
+        this.router.navigate(['personalization']);
+      }
+      else {
+        this.hasErrors = true;
+        this.constantsService.stopLoader();
+      }
     }
+
   }
 
   cpfChange(event: any) {
@@ -77,7 +89,7 @@ export class LoginComponent implements OnInit {
 		numeric.slice(9, 11);
         cpfInput = formatCPF;
     }
-    console.log("cpfInput", cpfInput);
+
     this.cpf_cnpj = cpfInput;
   }
 

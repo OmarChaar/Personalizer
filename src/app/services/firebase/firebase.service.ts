@@ -25,10 +25,20 @@ export class FirebaseService {
   login(cpf: any, apt: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.httpClient.get(this.databaseURL+'getClient?id='+cpf+'&apartment='+apt).subscribe(async (res: any) => {
-        this.store.dispatch(new SetClient(res));
-        this.sessionStorageService.set('clientCredentials', {id: cpf, apartment: apt});
-        await this.getSection(res.clientOf);
-        resolve(res);
+
+        if(res) {
+          this.store.dispatch(new SetClient(res));
+          this.sessionStorageService.set('clientCredentials', {id: cpf, apartment: apt});
+          await this.getSection(res.clientOf);
+          resolve(res);
+        }
+        else {
+          resolve(false);
+        }
+      }, (err: any) => {
+        resolve(false);
+        console.error(err); // log the error to the console
+        reject(err); // reject the promise with the error
       });
     });
   }

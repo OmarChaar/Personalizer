@@ -5,6 +5,12 @@
   align-items: center;
   justify-content: center;
   background: var(--table-header);
+  flex-direction: column;
+}
+
+.loginPage img {
+  width: 10rem;
+  margin-bottom: 2rem;
 }
 
 .loginSection {
@@ -18,11 +24,31 @@
 
 .buttonsSection {
   display: flex;
-  justify-content: flex-end;
-
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer {
   height: 10rem;
-  background-color: red;
+  background-color: var(--active);
+}
+
+.visible {
+  visibility: visible;
+  color: var(--danger);
+  font-weight: 100;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+  color: var(--danger);
+  font-weight: 100;
+}
+
+.invisible {
+  visibility: hidden;
 }

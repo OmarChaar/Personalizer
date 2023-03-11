@@ -8,13 +8,28 @@
   </div>
   <div class="body">
     <div class="halfPage imageSection">
-      <ng-container *ngFor="let image of images; let i = index;">
-        <img [src]="image.url" />
-        <img [src]="image.url" />
-        <img [src]="image.url" />
-        <img [src]="image.url" />
-        <img [src]="image.url" />
-      </ng-container>
+      <mat-drawer-container [hasBackdrop]="true">
+        <mat-drawer #drawer [mode]="'over'" autoFocus="false">
+          <div class="sidebar">
+            <div class="navButtons">
+              <div class="navBtn">
+                PISOS
+              </div>
+            </div>
+          </div>
+        </mat-drawer>
+
+        <ng-container *ngFor="let image of images; let i = index;">
+          <img [src]="image.url" />
+        </ng-container>
+        <div class="burgerMenu"  (click)="drawer.toggle()">
+          <i class="bi bi-list"></i>
+        </div>
+
+      </mat-drawer-container>
+
+
+
     </div>
 
     <div class="halfPage questionSection p-4">

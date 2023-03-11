@@ -38,6 +38,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
   --page: #e3edf7;
   --active: #345995;
+  --table-header: #e7f0ff;
+  --danger: #E40066;
+  --success: #03CEA4;
+  --warning-primary: #FF9505;
 }
 
 a {

@@ -1,23 +1,26 @@
 <div class="container">
   <div class="loginPage">
 
+    <img src="../../../assets/imgs/logo.png" />
+
     <div class="loginSection">
       <mat-form-field appearance="fill">
         <mat-label>Enter your CPF or CNPJ</mat-label>
-        <input matInput placeholder="pat@example.com" required [(ngModel)]="cpf_cnpj" maxlength="18"
+        <input matInput placeholder="pat@example.com" [formControl]="cpfForm" required [(ngModel)]="cpf_cnpj" maxlength="18"
         (keyup)="cpf_cnpj?.length < 15 ? cpfChange($event) : cnpjChange($event)">
         <mat-error *ngIf="hasErrors && !(cpf_cnpj.length == 14 || cpf_cnpj.length == 17)">Not valid CPF or CNPJ</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Enter your apartment</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="apartment">
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="aptForm" [(ngModel)]="apartment">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
 
       <div class="buttonsSection">
+        <span [ngClass]="hasErrors ? 'visible' : 'invisible'">CPF/CNPJ or Apartment invalid!</span>
         <button mat-raised-button (click)="login()">Login</button>
       </div>
     </div>
