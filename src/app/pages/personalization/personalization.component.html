@@ -32,7 +32,7 @@
             </div>
 
             <mat-radio-group aria-label="Select an option" class="radioGroup">
-              <mat-radio-button [ngClass]="question.type == 'truthy' ? 'truthyCheckbox' : ''" [disabled]="!question.enabled" (change)="selectOption($event, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value">
+              <mat-radio-button [ngClass]="question.type == 'truthy' ? 'truthyCheckbox' : ''" [disabled]="!question.enabled" (change)="selectOption($event.value, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value" [checked]="question.choice == choice.value">
                 {{ choice.label }}
               </mat-radio-button>
             </mat-radio-group>

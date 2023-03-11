@@ -37,45 +37,47 @@ export class PersonalizationComponent implements OnInit {
     private location: Location
   ) {
 
-    if(this.sessionStorageService.get('client')) {
-      console.log("CCCLIENT", this.sessionStorageService.get('client'));
-    }
 
-    if(this.sessionStorageService.get('sections')) {
-      this.sections = this.sessionStorageService.get('sections');
-    }
-    else {
-      this.account$.subscribe((account) => {
-        console.log("addoc", account);
-        this.sections = account;
-      })
-    }
+    this.account$.subscribe((account) => {
+      this.sections = account;
+      if(this.sections) {
 
-    if(this.sections) {
-      console.log("SECTIONS", this.sections);
-      for(let section of this.sections) {
-        if(section?.images?.length > 0) {
-          for(let image of section.images) {
-            this.images.push(image);
+        const userChoices = this.sessionStorageService.get('userChoices');
+
+        for(let section of this.sections) {
+          for(let question of section.questions) {
+
+            if(userChoices[question.id] != undefined) {
+              this.selectOption(userChoices[question.id].choice, question);
+            }
+          }
+
+          if(section?.images?.length > 0) {
+            for(let image of section.images) {
+              this.images.push(image);
+            }
           }
         }
+
+
+
       }
-
-    }
-
+    })
   }
 
   ngOnInit(): void {
   }
 
-  selectOption(event: any, question: any) {
-    // console.log("selectOption", question);
+  userChoices: any = {};
+
+  selectOption(value: any, question: any) {
+
     let option: any;
 
-    question.choice = event.value;
+    question.choice = value;
 
     if(question.type == QuestionType.multi) {
-      option = question.options[event.value-1];
+      option = question.options[value-1];
 
       question.price = option.price;
 
@@ -94,14 +96,20 @@ export class PersonalizationComponent implements OnInit {
       }
     }
 
-    if(question?.childOf) {
-      if(question.choice.toUpperCase() == 'S') {
-
+    if(question?.type == 'truthy') {
+      if(question?.choice == true) {
+        // console.log("TRUE");
       }
-      else if(question.choice.toUpperCase() == 'N') {
-
+      else {
+        // console.log("FALSE");
       }
     }
+
+    this.userChoices[question.id] = {
+      choice: question.choice
+    }
+
+    // console.log("userCHouces", this.userChoices);
   }
 
   findChild(id: any) {
@@ -133,23 +141,23 @@ export class PersonalizationComponent implements OnInit {
   }
 
   verify() {
-    this.verifying = true;
+    // this.verifying = true;
 
-    for(let i=0; i<this.sections.length; i++) {
-      for(let ii=0; ii<this.sections[i].questions.length; ii++) {
-        let question = this.sections[i].questions[ii];
-        if(question.error == true && question.enabled == true) {
-          document.getElementById(question.id)?.scrollIntoView({behavior: 'smooth'});
-          return false;
-        }
-      }
-    }
+    // for(let i=0; i<this.sections.length; i++) {
+    //   for(let ii=0; ii<this.sections[i].questions.length; ii++) {
+    //     let question = this.sections[i].questions[ii];
+    //     if(question.error == true && question.enabled == true) {
+    //       document.getElementById(question.id)?.scrollIntoView({behavior: 'smooth'});
+    //       return false;
+    //     }
+    //   }
+    // }
     return true;
   }
 
   save() {
     if(this.verify() == true) {
-
+      this.sessionStorageService.set('userChoices', this.userChoices);
     }
     else {
 
