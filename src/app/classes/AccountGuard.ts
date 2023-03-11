@@ -16,7 +16,6 @@ export class AccountGuard implements CanActivate {
 
     return this.account$.pipe(
       map(account => {
-        console.log("AAAAAAA", account);
         if (account.length > 0) {
           return true;
         } else {

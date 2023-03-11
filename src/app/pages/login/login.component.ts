@@ -1,14 +1,8 @@
-import { SetAccount } from 'src/app/state-management/account';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import * as Papa from 'papaparse';
-import { InitOption, InitQuestion, Question, Section } from 'src/app/classes/class';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
-import { SetClient } from 'src/app/state-management/client';
 import { ConstantsService } from 'src/app/services/constants/constants.service';
 
 @Component({

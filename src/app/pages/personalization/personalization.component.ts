@@ -1,3 +1,5 @@
+import { FirebaseService } from 'src/app/services/firebase/firebase.service';
+import { ConstantsService } from './../../services/constants/constants.service';
 import { ClearAccount } from './../../state-management/account';
 import { Component, OnInit } from '@angular/core';
 import { Question, Section } from 'src/app/classes/class';
@@ -6,6 +8,7 @@ import { Store } from '@ngxs/store';
 import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { first } from 'rxjs';
 
 export enum QuestionType {
   multi = 'multi',
@@ -21,34 +24,35 @@ export enum QuestionType {
 export class PersonalizationComponent implements OnInit {
 
   account$ = this.store.select(state => state.account.account);
+  client$ = this.store.select(state => state.client.client);
 
   public sections: any[] = [];
   public images: any[] = [];
 
   public verifying = false;
 
-  public nodeJS_host = 'http://localhost:3000';
-
   public total = 0;
 
   constructor(
     private store: Store,
     private sessionStorageService: SessionStorageService,
-    private location: Location
+    private location: Location,
+    private firebaseService: FirebaseService,
+    private constantsService: ConstantsService
   ) {
 
-
+    this.constantsService.startLoader();
     this.account$.subscribe((account) => {
       this.sections = account;
       if(this.sections) {
 
         const userChoices = this.sessionStorageService.get('userChoices');
-
+        console.log("userChoices", userChoices);
         for(let section of this.sections) {
           for(let question of section.questions) {
 
             if(userChoices[question.id] != undefined) {
-              this.selectOption(userChoices[question.id].choice, question);
+              this.selectOption(userChoices[question.id], question);
             }
           }
 
@@ -59,8 +63,7 @@ export class PersonalizationComponent implements OnInit {
           }
         }
 
-
-
+        this.constantsService.stopLoader();
       }
     })
   }
@@ -96,7 +99,7 @@ export class PersonalizationComponent implements OnInit {
       }
     }
 
-    if(question?.type == 'truthy') {
+    if(question?.type == QuestionType.truthy) {
       if(question?.choice == true) {
         // console.log("TRUE");
       }
@@ -105,9 +108,7 @@ export class PersonalizationComponent implements OnInit {
       }
     }
 
-    this.userChoices[question.id] = {
-      choice: question.choice
-    }
+    this.userChoices[question.id] = question.choice;
 
     // console.log("userCHouces", this.userChoices);
   }
@@ -157,7 +158,14 @@ export class PersonalizationComponent implements OnInit {
 
   save() {
     if(this.verify() == true) {
+      this.constantsService.startLoader();
       this.sessionStorageService.set('userChoices', this.userChoices);
+      this.client$.pipe(first()).toPromise().then(async (res: any) => {
+        let client = res;
+        client.choices = this.userChoices;
+        await this.firebaseService.save(client);
+        this.constantsService.stopLoader();
+      })
     }
     else {
 
