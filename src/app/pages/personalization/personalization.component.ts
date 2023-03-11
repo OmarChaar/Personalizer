@@ -37,12 +37,12 @@ export class PersonalizationComponent implements OnInit {
     private location: Location
   ) {
 
-    if(this.sessionStorageService.getSessionStorage('client')) {
-      console.log("CCCLIENT", this.sessionStorageService.getSessionStorage('client'));
+    if(this.sessionStorageService.get('client')) {
+      console.log("CCCLIENT", this.sessionStorageService.get('client'));
     }
 
-    if(this.sessionStorageService.getSessionStorage('sections')) {
-      this.sections = this.sessionStorageService.getSessionStorage('sections');
+    if(this.sessionStorageService.get('sections')) {
+      this.sections = this.sessionStorageService.get('sections');
     }
     else {
       this.account$.subscribe((account) => {

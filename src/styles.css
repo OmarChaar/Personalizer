@@ -4,6 +4,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+* {
+  font-family: 'OpenSans';
+}
+
 @media only screen and (max-width: 850px) {
   html {
     width: 100vw;
@@ -31,6 +35,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --header: #d01135;
   --button: #af9400;
   --buttonText: #ffffff;
+
+  --page: #e3edf7;
+  --active: #345995;
 }
 
 a {
@@ -128,4 +135,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: flex;
   flex-direction: column;
   padding: 0 !important;
+}
+
+
+@font-face {
+  font-family: OpenSans;
+  src: url(./assets/fonts/OpenSans.ttf) format("truetype");
 }

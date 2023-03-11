@@ -8,6 +8,8 @@ import * as Papa from 'papaparse';
 import { InitOption, InitQuestion, Question, Section } from 'src/app/classes/class';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { SessionStorageService } from 'src/app/services/sessionStorage/session-storage.service';
+import { SetClient } from 'src/app/state-management/client';
+import { ConstantsService } from 'src/app/services/constants/constants.service';
 
 @Component({
   selector: 'app-login',
@@ -28,22 +30,22 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private firebaseService: FirebaseService,
     private store: Store,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private constantsService: ConstantsService
   ) { }
 
   ngOnInit(): void {
   }
 
   async login() {
-    const loggedIn = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
-    if(loggedIn) {
-      console.log("loggedIn", loggedIn);
-      this.firebaseService.get('sections').subscribe((sections) => {
-        this.store.dispatch(new SetAccount(sections));
-        this.sessionStorageService.setSessionStorage('sections', sections);
-        this.router.navigate(['personalization']);
-      })
-
+    this.constantsService.startLoader();
+    const client: any = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
+    if(client) {
+      this.constantsService.stopLoader();
+      this.router.navigate(['personalization']);
+    }
+    else {
+      this.constantsService.stopLoader();
     }
   }
 

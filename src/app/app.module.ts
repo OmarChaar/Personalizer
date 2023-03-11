@@ -12,6 +12,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { NgxsModule } from '@ngxs/store';
 import { AccountState } from './state-management/account';
 import { ClientState } from './state-management/client';
+import { AccountGuard } from './classes/AccountGuard';
 
 
 const firebaseConfig = {
@@ -38,7 +39,9 @@ const firebaseConfig = {
     AngularFirestoreModule,
     NgxsModule.forRoot([AccountState, ClientState])
   ],
-  providers: [],
+  providers: [
+    AccountGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

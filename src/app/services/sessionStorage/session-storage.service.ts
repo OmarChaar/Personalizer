@@ -7,11 +7,11 @@ export class SessionStorageService {
 
   constructor() { }
 
-  setSessionStorage(key: string, value: any): void {
+  set(key: string, value: any): void {
     window.sessionStorage.setItem(key, JSON.stringify(value));
   }
 
-  getSessionStorage(key: string): any {
+  get(key: string): any {
     let returned = window.sessionStorage.getItem(key);
     if (returned !== null) {
       return JSON.parse(returned);

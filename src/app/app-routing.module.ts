@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountGuard } from './classes/AccountGuard';
 import { LoginComponent } from './pages/login/login.component';
 import { PersonalizationComponent } from './pages/personalization/personalization.component';
 
@@ -12,7 +13,8 @@ const routes: Routes = [
   {
     path: 'personalization',
     loadChildren: () => import('../app/pages/personalization/personalization.module').then(m => m.PersonalizationModule),
-    data: { animation: 'isPersonalization' }
+    data: { animation: 'isPersonalization' },
+    canActivate: [AccountGuard],
   },
   {
     path: 'login',

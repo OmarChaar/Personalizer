@@ -1,2 +1,11 @@
+<div *ngIf="constantsService.loading" class="loader">
+  <div class="spinner"></div>
+</div>
+
+<div *ngIf="loading" class="loaderFull">
+  <div class="imageLogo">
+    <img src="../assets/imgs/logo.png"/>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
