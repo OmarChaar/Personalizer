@@ -37,8 +37,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --buttonText: #ffffff;
 
   --page: #e3edf7;
-  --active: #345995;
   --table-header: #e7f0ff;
+  --table-border: #a8caff;
+  --table-tr-focused: #f5f7ff;
+  --active-section: #edeff3;
+  --active: #345995;
   --danger: #E40066;
   --success: #03CEA4;
   --warning-primary: #FF9505;
@@ -65,8 +68,15 @@ a {
   font-size: 1.25rem;
 }
 
-.mat-radio-outer-circle {
+.radioGroup .mat-radio-outer-circle {
   border-color: var(--checkbox) !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.radioGroupError .mat-radio-outer-circle {
+  border-color: var(--danger) !important;
   border-radius: 0 !important;
   width: 100% !important;
   height: 100% !important;
@@ -77,13 +87,13 @@ a {
 }
 
 .mat-radio-container {
-  width: 1.75vw !important;
-  height: 1.75vw !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
 }
 
 .mat-radio-label-content {
   padding-left: 5px !important;
-  font-size: 1.25vw;
+  font-size: 1rem;
   color: var(--checkboxLabel) !important;
 }
 
@@ -100,8 +110,8 @@ a {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(0.95) !important;
-  height: 0.95vw !important;
-  width: 0.95vw !important;
+  height: 0.95rem !important;
+  width: 0.95rem !important;
 }
 
 .mat-radio-inner-circle::after {

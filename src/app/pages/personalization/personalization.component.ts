@@ -31,7 +31,7 @@ export class PersonalizationComponent implements OnInit {
   public sections: any[] = [];
   public images: any[] = [];
 
-  public verifying = false;
+  public hasErrors = false;
 
   public total = 0;
 
@@ -45,7 +45,7 @@ export class PersonalizationComponent implements OnInit {
   ) {
 
     this.constantsService.startLoader();
-    this.account$.subscribe((account) => {
+    this.account$.pipe(first()).toPromise().then((account) => {
       this.sections = account;
       if(this.sections) {
         this.client$.pipe(first()).toPromise().then(client => {
@@ -53,7 +53,7 @@ export class PersonalizationComponent implements OnInit {
           for(let section of this.sections) {
             for(let question of section.questions) {
 
-              if(client?.choices[question.id] != undefined) {
+              if(client?.choices?.[question.id] != undefined) {
                 this.selectOption(client.choices[question.id], question);
               }
             }
@@ -145,17 +145,19 @@ export class PersonalizationComponent implements OnInit {
   }
 
   verify() {
-    // this.verifying = true;
+    for(let i=0; i<this.sections.length; i++) {
+      for(let ii=0; ii<this.sections[i].questions.length; ii++) {
+        let question = this.sections[i].questions[ii];
+        console.log("QUE", question);
+        if(question.enabled == true && question.required == true) {
+          if(question.choice == undefined) {
+            document.getElementById(question.id)?.scrollIntoView({behavior: 'smooth'});
+            return false;
+          }
 
-    // for(let i=0; i<this.sections.length; i++) {
-    //   for(let ii=0; ii<this.sections[i].questions.length; ii++) {
-    //     let question = this.sections[i].questions[ii];
-    //     if(question.error == true && question.enabled == true) {
-    //       document.getElementById(question.id)?.scrollIntoView({behavior: 'smooth'});
-    //       return false;
-    //     }
-    //   }
-    // }
+        }
+      }
+    }
     return true;
   }
 
@@ -184,7 +186,7 @@ export class PersonalizationComponent implements OnInit {
       })
     }
     else {
-
+      this.hasErrors = true
     }
   }
 

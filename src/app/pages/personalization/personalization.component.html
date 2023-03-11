@@ -41,12 +41,12 @@
           <label class="label">{{ question.displayLabel }}<ng-container *ngIf="question?.required">*</ng-container></label>
           <section class="checkboxSection ps-2">
 
-            <div class="topSection pb-1" [ngClass]="(question?.price != undefined || (question.error == true && verifying == true && question.enabled == true)) ? '' : 'hidden'">
-              <span class="error">{{(question.error == true && verifying == true && question.enabled == true) ? 'Error' : ''}}</span>
+            <div class="topSection pb-1" [ngClass]="(question?.price != undefined || (hasErrors == true && question.required == true && question.choice == undefined)) ? '' : 'hidden'">
+              <span class="error">{{(hasErrors == true && question.required == true && question.choice == undefined) ? 'Error' : ''}}</span>
               <span class="price">{{question.price != undefined ? (question.price | currency) : ''}}</span>
             </div>
 
-            <mat-radio-group aria-label="Select an option" class="radioGroup">
+            <mat-radio-group aria-label="Select an option" [ngClass]="(hasErrors && question.required == true && question.choice == undefined) ? 'radioGroupError' : 'radioGroup'">
               <mat-radio-button [ngClass]="question.type == 'truthy' ? 'truthyCheckbox' : ''" [disabled]="!question.enabled" (change)="selectOption($event.value, question)" class="radioButton" disableRipple="true" *ngFor="let choice of question.options" [value]="choice.value" [checked]="question.choice == choice.value">
                 {{ choice.label }}
               </mat-radio-button>
