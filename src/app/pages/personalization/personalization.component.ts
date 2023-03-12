@@ -161,29 +161,33 @@ export class PersonalizationComponent implements OnInit {
     return true;
   }
 
-  save() {
+  save(submit?: any) {
+    this.constantsService.startLoader();
+
+    this.client$.pipe(first()).toPromise().then(async (res: any) => {
+      let client = res;
+      client.choices = this.userChoices;
+      await this.firebaseService.save(client);
+      this.constantsService.stopLoader();
+
+      const dialogRef = this.dialog.open(PromptComponent, {
+        data: {
+          message: submit ? 'Your personalizations have been submitted!' : 'Your personalizations have been saved!',
+          title: submit ? 'Submit Successful' : 'Save Successful'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: any) => {
+        if(result != true) {
+          console.log("JESUS");
+        }
+      });
+    })
+  }
+
+  submit() {
     if(this.verify() == true) {
-      this.constantsService.startLoader();
-      this.sessionStorageService.set('userChoices', this.userChoices);
-      this.client$.pipe(first()).toPromise().then(async (res: any) => {
-        let client = res;
-        client.choices = this.userChoices;
-        await this.firebaseService.save(client);
-        this.constantsService.stopLoader();
-
-        const dialogRef = this.dialog.open(PromptComponent, {
-          data: {
-            message: 'Are you sure you want to delete this image?',
-            title: 'Deleting Image'
-          }
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-          if(result != true) {
-            console.log("JESUS");
-          }
-        });
-      })
+      this.save();
     }
     else {
       this.hasErrors = true
@@ -191,9 +195,22 @@ export class PersonalizationComponent implements OnInit {
   }
 
   goBack() {
-    this.store.dispatch(new ClearAccount());
-    this.sessionStorageService.clearStorage();
-    this.location.back();
+    const dialogRef = this.dialog.open(PromptComponent, {
+      data: {
+        message: 'Are you sure you want to logout?',
+        title: 'Logout'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if(result == true) {
+        this.store.dispatch(new ClearAccount());
+        this.sessionStorageService.clearStorage();
+        this.location.back();
+      }
+    });
+
+
   }
 
 }

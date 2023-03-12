@@ -7,38 +7,35 @@
     </div>
   </div>
   <div class="body">
-    <!-- <div class="halfPage imageSection"> -->
-      <mat-drawer-container [hasBackdrop]="true" class="halfPage imageSection">
-        <mat-drawer #drawer [mode]="'over'" autoFocus="false">
-          <div class="sidebar">
-            <div class="navButtons">
-              <div class="navBtn">
-                PISOS
-              </div>
+    <mat-drawer-container [hasBackdrop]="true" class="halfPage imageSection">
+      <mat-drawer #drawer [mode]="'over'" autoFocus="false">
+        <div class="sidebar">
+          <div class="navButtons">
+            <div class="navBtn" *ngFor="let section of sections">
+              {{ section.label }}
             </div>
           </div>
-        </mat-drawer>
-
-        <ng-container *ngFor="let image of images; let i = index;">
-          <img [src]="image.url" />
-        </ng-container>
-        <div class="burgerMenu"  (click)="drawer.toggle()">
-          <i class="bi bi-list"></i>
         </div>
+      </mat-drawer>
+      <div class="imageContainer">
+        <ng-container *ngFor="let image of images; let i = index;" >
+          <img loading="lazy" [src]="image.url" />
+        </ng-container>
+      </div>
 
-      </mat-drawer-container>
+      <div class="burgerMenu"  (click)="drawer.toggle()">
+        <i class="bi bi-list"></i>
+      </div>
 
-
-
-    <!-- </div> -->
+    </mat-drawer-container>
 
     <div class="halfPage questionSection p-4">
 
-      <div *ngFor="let section of sections; let i = index;" class="mb-4">
+      <div *ngFor="let section of sections; let i = index;" class="section mb-4">
         <h2 class="sectionLabel">{{ section.label }}</h2>
 
         <div *ngFor="let question of section.questions; let m = index" [id]="question.id" class="question mb-2" [ngClass]="question.type == 1 ? 'truthy' : ''">
-          <label class="label">{{ question.displayLabel }}<ng-container *ngIf="question?.required">*</ng-container></label>
+          <label class="label">{{ question.displayLabel }}<span *ngIf="question?.required">*</span></label>
           <section class="checkboxSection ps-2">
 
             <div class="topSection pb-1" [ngClass]="(question?.price != undefined || (hasErrors == true && question.required == true && question.choice == undefined)) ? '' : 'hidden'">
@@ -60,8 +57,8 @@
       </div>
 
       <div class="buttons pt-4">
-        <button mat-raised-button class="primary" (click)="save()">SAVE</button>
-        <button mat-raised-button class="primary" (click)="save()">CONTINUE</button>
+        <button mat-raised-button class="secondary" (click)="save()">SAVE</button>
+        <button mat-raised-button class="primary" (click)="submit()">CONTINUE</button>
       </div>
 
     </div>

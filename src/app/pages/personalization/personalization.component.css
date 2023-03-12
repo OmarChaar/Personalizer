@@ -35,7 +35,7 @@
 }
 
 .questionSection {
-  background-color: black;
+  background-color: var(--bs-body-color);
 }
 
 .question {
@@ -46,7 +46,15 @@
 }
 
 .sectionLabel {
-  color: var(--title);
+  background: var(--title);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding-right: 5rem;
 }
 
 .label {
@@ -67,7 +75,8 @@
 .topSection {
   display: flex;
   justify-content: space-between;
-  height: 1.5rem;
+  height: 2rem;
+  align-items: center;
 }
 
 .error {
@@ -77,11 +86,12 @@
 
 .price {
   color: var(--price);
+  font-weight: 500;
 }
 
 .bottomSection {
   height: 1.5rem;
-
+  /* overflow: hidden; */
 }
 
 .hidden {
@@ -90,6 +100,14 @@
 
 .link {
   color: var(--link);
+  font-weight: 100;
+  word-break: break-all;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  width: 50%;
 }
 
 .mat-radio-button {
@@ -109,11 +127,22 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .buttons button {
-  width: 25%;
+  width: 30%;
   max-width: 250px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.secondary {
+  background-color: white !important;
+  border: 2px solid var(--button);
+  color: var(--button) !important;
+  font-weight: bold;
 }
 
 .primary {
@@ -137,14 +166,16 @@
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background: orange;
+  background: goldenrod;
   display: flex;
   border-radius: 5px;
+  color: white;
+  cursor: pointer;
 }
 
 .burgerMenu i {
   padding: 0.5rem;
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 
 .mat-drawer-container {
@@ -161,15 +192,37 @@
 .navButtons {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   flex: 1;
-  padding: 1rem;
+  background: var(--page);
+  min-width: 15vw;
+  max-width: 20vw;
 }
 
 .navBtn {
-  padding: 1rem 3rem 1rem 1rem;
+  padding: 1.5rem 3rem 1.5rem 1rem;
   border: none;
-  border-radius: 5px;
   text-align: left;
   text-transform: uppercase;
+  border-bottom: 2px solid white;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.imageContainer {
+  height: 100%;
+  overflow: auto;
+}
+
+.mat-drawer-content {
+  overflow: unset !important;
+}
+
+.section {
+  margin-bottom: 3rem !important;
+  border-bottom: 2px solid gold;
+  padding-bottom: 2rem;
+}
+
+.label span {
+  color: var(--danger);
 }

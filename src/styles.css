@@ -27,11 +27,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --checkboxLabel: #ffffff;
   --checkboxDisabled: #af940059;
   --checkboxLabelDisabled: #af940059;
-  --title: #ffffff;
+  --title: #af9400;
   --label: #ffffff;
   --error: #fb1818;
-  --price: #d1fe17;
-  --link: #ea9999;
+  --price: #ffffff;
+  --link: #1e90ff;
   --header: #d01135;
   --button: #af9400;
   --buttonText: #ffffff;
@@ -73,6 +73,7 @@ a {
   border-radius: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  border-width: 1px;
 }
 
 .radioGroupError .mat-radio-outer-circle {
@@ -103,6 +104,7 @@ a {
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
   border-color: gold !important;
+  border-width: 2px;
 }
 
 .mat-radio-checked .mat-radio-inner-circle {
@@ -112,14 +114,16 @@ a {
   transform: translate(-50%, -50%) scale(0.95) !important;
   height: 0.95rem !important;
   width: 0.95rem !important;
+  background: #af940075 !important;
+  border-radius: 0;
 }
 
 .mat-radio-inner-circle::after {
   content: "";
   width: 60%;
   height: 100%;
-  border-right: 3px solid gold;
-  border-bottom: 3px solid gold;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
   transform: rotate(40deg) translate(-50%, -50%);
   top: 45%;
   position: absolute;
