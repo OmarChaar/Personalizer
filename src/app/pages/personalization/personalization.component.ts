@@ -163,7 +163,9 @@ export class PersonalizationComponent implements OnInit {
 
     this.client$.pipe(first()).toPromise().then(async (res: any) => {
       let client = res;
+      client.submitted = submit;
       client.choices = this.userChoices;
+      console.log("*** client", client);
       await this.firebaseService.save(client);
       this.constantsService.stopLoader();
 
@@ -184,7 +186,7 @@ export class PersonalizationComponent implements OnInit {
 
   submit() {
     if(this.verify() == true) {
-      this.save();
+      this.save(true);
     }
     else {
       this.hasErrors = true
