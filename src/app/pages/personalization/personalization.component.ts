@@ -1,7 +1,8 @@
+import { doc } from 'firebase/firestore';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { ConstantsService } from './../../services/constants/constants.service';
 import { ClearAccount } from './../../state-management/account';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Question, Section } from 'src/app/classes/class';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
@@ -11,6 +12,7 @@ import { Location } from '@angular/common';
 import { first } from 'rxjs';
 import { PromptComponent } from 'src/app/components/prompt/prompt.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDrawer } from '@angular/material/sidenav';
 
 export enum QuestionType {
   multi = 'multi',
@@ -25,11 +27,12 @@ export enum QuestionType {
 
 export class PersonalizationComponent implements OnInit {
 
+  @ViewChild('drawer') drawer!: MatDrawer;
+
   account$ = this.store.select(state => state.account.account);
   client$ = this.store.select(state => state.client.client);
 
   public sections: any[] = [];
-  public images: any[] = [];
 
   public hasErrors = false;
 
@@ -55,12 +58,6 @@ export class PersonalizationComponent implements OnInit {
 
               if(client?.choices?.[question.id] != undefined) {
                 this.selectOption(client.choices[question.id], question);
-              }
-            }
-
-            if(section?.images?.length > 0) {
-              for(let image of section.images) {
-                this.images.push(image);
               }
             }
           }
@@ -211,6 +208,11 @@ export class PersonalizationComponent implements OnInit {
     });
 
 
+  }
+
+  goToImage(id: any) {
+    document.getElementById('image_'+id)?.scrollIntoView({behavior: 'smooth'});
+    this.drawer.close();
   }
 
 }

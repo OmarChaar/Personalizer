@@ -29,7 +29,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --checkboxLabelDisabled: #af940059;
   --title: #af9400;
   --label: #ffffff;
-  --error: #fb1818;
+  --error: #E40066;
   --price: #ffffff;
   --link: #1e90ff;
   --header: #d01135;
@@ -77,7 +77,7 @@ a {
 }
 
 .radioGroupError .mat-radio-outer-circle {
-  border-color: var(--danger) !important;
+  border-color: var(--error) !important;
   border-radius: 0 !important;
   width: 100% !important;
   height: 100% !important;
