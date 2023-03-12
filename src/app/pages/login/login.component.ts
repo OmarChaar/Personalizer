@@ -19,9 +19,6 @@ export class LoginComponent implements OnInit {
   hide = true;
   hasErrors = false;
 
-  cpf_cnpj: any;;
-  apartment: any;
-
   public sections: any[] = [];
 
   constructor(
@@ -36,13 +33,13 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    if (!this.cpf_cnpj || this.apartment.trim() === '') {
+    if (!this.cpfForm.value || this.aptForm.value?.trim() === '') {
       this.cpfForm.markAllAsTouched();
       this.aptForm.markAllAsTouched();
     }
     else {
       this.constantsService.startLoader();
-      const client: any = await this.firebaseService.login(this.cpf_cnpj, this.apartment);
+      const client: any = await this.firebaseService.login(this.cpfForm.value, this.aptForm.value);
       if(client) {
         this.constantsService.stopLoader();
         this.router.navigate(['personalization']);
@@ -50,6 +47,18 @@ export class LoginComponent implements OnInit {
       else {
         this.hasErrors = true;
         this.constantsService.stopLoader();
+      }
+    }
+
+  }
+
+  change(event: any) {
+    if(this.cpfForm != undefined) {
+      if(this.cpfForm.value && this.cpfForm.value.length > 15) {
+        this.cpfChange(event);
+      }
+      else {
+        this.cnpjChange(event);
       }
     }
 
@@ -90,7 +99,7 @@ export class LoginComponent implements OnInit {
         cpfInput = formatCPF;
     }
 
-    this.cpf_cnpj = cpfInput;
+    this.cpfForm.setValue(cpfInput);
   }
 
   cnpjChange(event: any) {
@@ -124,7 +133,7 @@ export class LoginComponent implements OnInit {
       cnpjInput = formatCPF;
     }
 
-    this.cpf_cnpj = cnpjInput;
+    this.cpfForm.setValue(cnpjInput);
   }
 
 }

@@ -6,14 +6,16 @@
     <div class="loginSection">
       <mat-form-field appearance="fill">
         <mat-label>Enter your CPF or CNPJ</mat-label>
-        <input matInput placeholder="pat@example.com" [formControl]="cpfForm" required [(ngModel)]="cpf_cnpj" maxlength="18"
-        (keyup)="cpf_cnpj?.length < 15 ? cpfChange($event) : cnpjChange($event)">
-        <mat-error *ngIf="hasErrors && !(cpf_cnpj.length == 14 || cpf_cnpj.length == 17)">Not valid CPF or CNPJ</mat-error>
+        <!-- [(ngModel)]="cpf_cnpj" -->
+        <input matInput placeholder="pat@example.com" [formControl]="cpfForm" required  maxlength="18"
+        (keyup)="(cpfForm.value && cpfForm.value.length < 15) ? cpfChange($event) : cnpjChange($event)">
+        <mat-error *ngIf="hasErrors && !(cpfForm?.value?.length == 14 || cpfForm?.value?.length == 17)">Not valid CPF or CNPJ</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Enter your apartment</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="aptForm" [(ngModel)]="apartment">
+        <!--  [(ngModel)]="apartment" -->
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="aptForm">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
